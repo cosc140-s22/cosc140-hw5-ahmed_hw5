@@ -1,0 +1,53 @@
+- model: products.Product
+  pk: 1
+  fields:
+    name: Radio controlled car
+    description: "A scale model Saab 96 v4 radio controlled car, complete with working doors and action figure driver and passenger."
+    price: 39.99
+    minimum_age_appropriate: 8
+    maximum_age_appropriate: 17
+- model: products.Product
+  pk: 2
+  fields:
+    name: Panda puzzle
+    description: "A 500 piece puzzle of the Panda Ling-ling, formerly of the National Zoo in Washington DC."
+    price: 7.99
+    minimum_age_appropriate: 3
+    maximum_age_appropriate: 3
+- model: products.Product
+  pk: 3
+  fields:
+    name: Horse figurine
+    description: "Welsh mountain pony figurine, chestnut mare.  Legs and head move.  Battery-operated neighing.  Toy oats, carrots, and apples not included."
+    price: 5.99
+    minimum_age_appropriate: 2
+- model: products.Product
+  pk: 4
+  fields:
+    name: Hobby horse
+    description: "Frisian gelding hobby horse.  Jet black.  50cm stick.  Appropriately long mane, which can be braided or styled."
+    price: 60.00
+    minimum_age_appropriate: 3
+- model: products.Product
+  pk: 5
+  fields:
+    name: Wooden train
+    description: "5 car wooden train, including locomotive, coal car, tanker, box car, and caboose.  25 sections of track included, along with animal figurines, trees, and other elements."
+    price: 13.50
+    minimum_age_appropriate: 2
+- model: products.Product
+  pk: 6
+  fields:
+    name: Cityscape puzzle (large pieces)
+    description: "Giant-sized puzzle, 2x3 meters.  40 pieces.  Bright and chunky pieces for a child to play with, drool on, sit on, and feed to the dog.  Endless fun."
+    price: 10.00
+    minimum_age_appropriate: 0
+    maximum_age_appropriate: 3
+- model: products.Product
+  pk: 7
+  fields:
+    name: Blocks (wooden, letters)
+    description: "6-sided wooden blocks, with letters and numbers in attractive colors on each side.  There are enough blocks and letters to spell out simple words and to intrigue your budding builder."
+    price: 15.99
+    minimum_age_appropriate: 0
+    maximum_age_appropriate: 2

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<form method="get" action="{% url 'index' %}">
+    {{ form }}
+    <input class="btn btn-primary" type="submit" name="Filter results">
+    <a href="{% url 'index' %}?reset=true" class="btn btn-secondary">Reset filters</a>
+</form>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <th>Name
+        <th>Description
+        <th>Ages
+        <th>Price
+    </thead>
+    <tbody>
+{% for p in products %}
+    <tr>
+        <td><a href="{% url 'show' p.id %}">{{ p.name }}</a>
+        <td>{{ p.description|truncatewords:5 }}
+        <td class="right">{{ p.age_range }}
+        <td class="right">{{ p.price|floatformat:2 }}
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

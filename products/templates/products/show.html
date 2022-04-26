@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p class="lead">Details for {{product.name}}</p>
+<dl>
+    <dt>Description</dt><dd>{{product.description}}</dd>
+    <dt>Ages</dt><dd>{{product.age_range}}</dd>
+    <dt>Price</dt><dd>{{product.price}}</dd>
+</dl>
+{% endblock %}
+
+{% block footer %}
+<br>
+<div>
+<a class="btn btn-primary" href="{% url 'index' %}">Back to all toys</a>
+</div>
+{% endblock %}
