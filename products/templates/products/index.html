@@ -9,11 +9,11 @@
 {% endblock %} {% block content %}
 <table class="table">
   <thead>
-    <th>Name</th>
-    <th>Thumbnail</th>
+    <th><a class="text-decoration-none" href="{% url 'index' %}?sort=name">Name</a></th>
+    <th>Image</th>
     <th>Description</th>
-    <th>Ages</th>
-    <th>Price</th>
+    <th><a class="text-decoration-none" href="{% url 'index' %}?sort=age">Ages</a></th>
+    <th><a class="text-decoration-none" href="{% url 'index' %}?sort=price">Price</a></th>
   </thead>
 
   <tbody>
