@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 
 class Product(models.Model):
     name = models.CharField(max_length=50, blank=False)
@@ -17,3 +18,18 @@ class Product(models.Model):
             return f"Age {self.minimum_age_appropriate}"
         else:
             return f"Ages {self.minimum_age_appropriate} to {self.maximum_age_appropriate}"
+    
+    def random_image(self):
+        img_query:QuerySet = self.productimage_set.all()
+        if(img_query.exists()):
+            return img_query.order_by("?")[0]
+        else:
+            return None
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='product_images/')
+    caption = models.CharField(max_length=100, blank=False)
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.caption

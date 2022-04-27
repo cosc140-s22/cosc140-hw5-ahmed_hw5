@@ -6,7 +6,7 @@ requires = ["poetry>0.12"]
 [tool.poetry]
 authors = ["Somebody <you@example.com>"]
 description = ""
-name = "django-template"
+name = "cosc140-hw5"
 version = "0.1.0"
 [tool.poetry.dependencies]
 Django = "^4.0"
