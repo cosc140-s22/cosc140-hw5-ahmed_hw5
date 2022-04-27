@@ -7,14 +7,25 @@ from .forms import ProductFilterForm
 
 def index(request:HttpRequest):
     get_params = request.GET
-    order_index = get_params.get('sort','name')
-    order_index = 'minimum_age_appropriate' if order_index == 'age' else order_index
-    products:List[Product] = Product.objects.all().order_by(order_index)
-    form = ProductFilterForm(request.GET)
-    name_search = request.GET.get('name_search')
+    form = ProductFilterForm(get_params)
     
+    sort_by = get_params.get('sort','name')
+    sort_by = 'minimum_age_appropriate' if sort_by == 'age' else sort_by
+    
+    name_search = get_params.get('name_search')
+    min_price = get_params.get('min_price')
+    max_price = get_params.get('max_price')
+
+    products:List[Product] = Product.objects.all().order_by(sort_by)
+
     if name_search:
         products = products.filter(name__icontains=name_search)
+    
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    
+    if max_price:
+        products = products.filter(price__lte=max_price)
     
     Product.objects.prefetch_related(Prefetch('productimage_set'))
     
