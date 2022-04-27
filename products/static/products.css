@@ -1,3 +1,48 @@
 .right {
-    text-align: right;
+  text-align: right;
+}
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.gallery {
+  display: flex;
+  margin: 10px auto;
+  max-width: 600px;
+  position: relative;
+  padding-top: 66.6666666667%;
+}
+@media screen and (min-width: 600px) {
+  .gallery {
+    padding-top: 400px;
+  }
+}
+.gallery_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  max-width: 400px;
+}
+.gallery_thumb {
+  padding-top: 6px;
+  margin: 6px;
+  display: block;
+}
+.gallery_selector {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.gallery_selector:checked + .gallery_img {
+  opacity: 1;
+}
+.gallery_selector:checked ~ .gallery_thumb > img {
+  box-shadow: 0 0 0 3px #0be2f6;
 }

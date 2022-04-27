@@ -11,18 +11,27 @@
     <dd>{{product.price}}</dd>
   </dl>
   {% if images %}
-  <div class="row">
-    {% for i in images %} {% with img=i.image %}
-    <div class="col-6">
-      {% if img.width > img.height %}
-      <img src="{{img.url}}" class="w-100 rounded mb-4" alt="{{i.caption}}" />
-      {% else %}
-      <img src="{{img.url}}" class="h-100 rounded mb-4" alt="{{i.caption}}" />
-      {% endif %}
-      <p>{{i.caption}}</p>
+  <section class="gallery">
+    {% for i in images %}
+    <div class="gallery_item">
+      <input
+        type="radio"
+        id="img-{{forloop.counter0}}"
+        checked
+        name="gallery"
+        class="gallery_selector"
+      />
+      <img class="gallery_img" src="{{i.image.url}}" alt="" />
+      <label for="img-{{forloop.counter0}}" class="gallery_thumb">
+        {% if img.width > img.height %}
+        <img src="{{i.image.url}}" width="150" alt="" />
+        {% else %}
+        <img src="{{i.image.url}}" height="150" alt="" />
+        {% endif %}
+      </label>
     </div>
-    {% endwith %} {% endfor %}
-  </div>
+    {% endfor %}
+  </section>
   {% endif %} {% endblock %} {% block footer %}
   <br />
   <div>

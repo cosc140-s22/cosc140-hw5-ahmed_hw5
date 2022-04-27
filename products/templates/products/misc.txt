@@ -1,0 +1,20 @@
+  <div class="row">
+    {% for i in images %} {% with img=i.image %}
+    <div class="col gallery-item rounded">
+      {% if img.width > img.height %}
+      <img
+        src="{{img.url}}"
+        class="w-100 rounded mb-4 product-img"
+        alt="{{i.caption}}"
+      />
+      {% else %}
+      <img
+        src="{{img.url}}"
+        class="h-100 rounded mb-4 product-img"
+        alt="{{i.caption}}"
+      />
+      {% endif %}
+      <p class="text-center caption">{{i.caption}}</p>
+    </div>
+    {% endwith %} {% endfor %}
+  </div>
