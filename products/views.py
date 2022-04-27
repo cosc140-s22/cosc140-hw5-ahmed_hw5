@@ -1,4 +1,3 @@
-from genericpath import exists
 from typing import List
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
@@ -18,10 +17,8 @@ def index(request:HttpRequest):
         products = products.filter(name__icontains=name_search)
     
     Product.objects.prefetch_related(Prefetch('productimage_set'))
-
-    product_images = [p.random_image() for p in products]
     
-    context = {'products': zip(products, product_images), 'form': form}
+    context = {'products': products, 'form': form}
     
     return render(request, 'products/index.html', context)
 
