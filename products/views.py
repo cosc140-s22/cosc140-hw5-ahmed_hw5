@@ -1,10 +1,21 @@
 from typing import List
 from django.http import HttpRequest, QueryDict
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Prefetch, QuerySet
+from django.contrib.sessions.backends.base import SessionBase
+from django.urls import reverse
+
 from .models import Product
 from .forms import ProductFilterForm
-from django.contrib.sessions.backends.base import SessionBase
+
+
+def get_query(session:SessionBase):
+    query_string = []
+    for key in session.keys():
+        val = 'age' if session.get(key) == 'minimum_age_appropriate' else session.get(key)
+        query_string.append(F"{key}={val}")
+    return '&'.join(query_string)
+
 
 def update_state(params:QueryDict, session:SessionBase):
     if params.get('reset'):
@@ -21,14 +32,19 @@ def update_state(params:QueryDict, session:SessionBase):
 
     if(params.get('max_price')):
         session['max_price'] = params.get('max_price')
-
-    print(dict(session)) # Print current state of session for debugging
-
+    
 def index(request:HttpRequest):
     get_params = request.GET
     session = request.session
     form = ProductFilterForm(get_params)
     update_state(get_params,session)
+
+    for key in session.keys():
+        '''
+            Redirect to url with query string that includes all search/sort parameters applied
+        '''
+        if key not in get_params.keys():
+            return redirect(F"{reverse('index')}?{get_query(session)}")
 
     products:List[Product] = Product.objects.all().order_by(session.get('sort','name'))
     
@@ -46,8 +62,9 @@ def index(request:HttpRequest):
         products = products.filter(price__lte=max_price)
     
     Product.objects.prefetch_related(Prefetch('productimage_set'))
-    
+
     context = {'products': products, 'form': form}
+    print(dict(session))
     return render(request, 'products/index.html', context)
 
 def show(request, product_id):
