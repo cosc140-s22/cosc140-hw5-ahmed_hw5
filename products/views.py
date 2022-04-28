@@ -39,11 +39,11 @@ def index(request:HttpRequest):
     form = ProductFilterForm(get_params)
     update_state(get_params,session)
 
-    for key in session.keys():
+    for key in ['sort','name_search','min_price','max_price']:
         '''
             Redirect to url with query string that includes all search/sort parameters applied
         '''
-        if key not in get_params.keys():
+        if key in session.keys() and key not in get_params.keys():
             return redirect(F"{reverse('index')}?{get_query(session)}")
 
     products:List[Product] = Product.objects.all().order_by(session.get('sort','name'))
