@@ -29,16 +29,15 @@ def index(request:HttpRequest):
 
     search_sort_keys = ['sort','name_search','min_price','max_price']
     update_state(params,session, search_sort_keys)
-    
     for key in search_sort_keys:
         '''
             Redirect to url with query string that includes all search/sort parameters applied
         '''
         if key in session.keys() and key not in params.keys():
             return redirect(F"{reverse('index')}?{get_query(session)}")
-
+    
+    # Retrieve searching and sorting filters from get request
     products:List[Product] = Product.objects.all().order_by('minimum_age_appropriate' if params.get('sort')=='age' else params.get('sort','name'))
-
     name_search = params.get('name_search')
     min_price = params.get('min_price')
     max_price = params.get('max_price')
