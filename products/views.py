@@ -10,47 +10,38 @@ from .forms import ProductFilterForm
 
 
 def get_query(session:SessionBase):
-    query_string = []
-    for key in session.keys():
-        val = 'age' if session.get(key) == 'minimum_age_appropriate' else session.get(key)
-        query_string.append(F"{key}={val}")
+    query_string = [F"{key}={session.get(key)}" for key in session.keys()]
     return '&'.join(query_string)
 
 
-def update_state(params:QueryDict, session:SessionBase):
+def update_state(params:QueryDict, session:SessionBase, keys):
     if params.get('reset'):
         session.clear()
     
-    if params.get('sort'):
-        session['sort'] = 'minimum_age_appropriate' if params.get('sort') == 'age' else params.get('sort')
-    
-    if(params.get('name_search')):
-        session['name_search'] = params.get('name_search')
-    
-    if(params.get('min_price')):
-        session['min_price'] = params.get('min_price')
-
-    if(params.get('max_price')):
-        session['max_price'] = params.get('max_price')
+    for key in keys:
+        if params.get(key):
+            session[key] = params.get(key)
     
 def index(request:HttpRequest):
-    get_params = request.GET
+    params = request.GET
     session = request.session
-    form = ProductFilterForm(get_params)
-    update_state(get_params,session)
+    form = ProductFilterForm(params)
 
-    for key in ['sort','name_search','min_price','max_price']:
+    search_sort_keys = ['sort','name_search','min_price','max_price']
+    update_state(params,session, search_sort_keys)
+    
+    for key in search_sort_keys:
         '''
             Redirect to url with query string that includes all search/sort parameters applied
         '''
-        if key in session.keys() and key not in get_params.keys():
+        if key in session.keys() and key not in params.keys():
             return redirect(F"{reverse('index')}?{get_query(session)}")
 
-    products:List[Product] = Product.objects.all().order_by(session.get('sort','name'))
-    
-    name_search = session.get('name_search')
-    min_price = session.get('min_price')
-    max_price = session.get('max_price')
+    products:List[Product] = Product.objects.all().order_by('minimum_age_appropriate' if params.get('sort')=='age' else params.get('sort','name'))
+
+    name_search = params.get('name_search')
+    min_price = params.get('min_price')
+    max_price = params.get('max_price')
 
     if name_search:
         products = products.filter(name__icontains=name_search)
@@ -62,9 +53,7 @@ def index(request:HttpRequest):
         products = products.filter(price__lte=max_price)
     
     Product.objects.prefetch_related(Prefetch('productimage_set'))
-
     context = {'products': products, 'form': form}
-    print(dict(session))
     return render(request, 'products/index.html', context)
 
 def show(request, product_id):
