@@ -12,4 +12,6 @@
 
 ## Feedback
 
-Once you commit and submit your work to Github, I'll update this section with feedback.
+S
+
+Excellent work -- really nice job on implementing the session settings and the RESTful URLs!  
